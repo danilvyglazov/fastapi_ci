@@ -25,7 +25,9 @@ def test_adding_new_recipe_and_get_it_by_id():
         result: dict = response.json()
         new_id = result.get("recipe_id")
         del result["recipe_id"]
-        new_data = client.get(f"/recipes/{new_id}", headers={"X-Token": "coneofsilence"})
+        new_data = client.get(
+            f"/recipes/{new_id}", headers={"X-Token": "coneofsilence"}
+        )
         assert result == {
             "title": "Meat",
             "time_to_cook": 30,
