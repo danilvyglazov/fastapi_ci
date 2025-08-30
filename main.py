@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from typing import List
 
 from fastapi import FastAPI, status
-from sqlalchemy import desc, update
+from sqlalchemy import desc
 from sqlalchemy.future import select
 
 import models
@@ -24,7 +24,9 @@ app = FastAPI(lifespan=lifespan)
 
 
 @app.post(
-    "/recipes/", response_model=schemas.RecipeOut, status_code=status.HTTP_201_CREATED
+    "/recipes/",
+    response_model=schemas.RecipeOut,
+    status_code=status.HTTP_201_CREATED
 )
 async def add_book(book: schemas.BaseRecipe) -> models.Recipe:
     async with async_session() as session:
@@ -48,8 +50,12 @@ async def get_recipes() -> List[models.Recipe]:
         try:
             recipes = await session.execute(
                 select(
-                    models.Recipe.title, models.Recipe.views, models.Recipe.time_to_cook
-                ).order_by(desc(models.Recipe.views), models.Recipe.time_to_cook)
+                    models.Recipe.title,
+                    models.Recipe.views,
+                    models.Recipe.time_to_cook
+                ).order_by(desc(models.Recipe.views),
+                           models.Recipe.time_to_cook
+                           )
             )
         except Exception as exc:
             session.rollback()
@@ -65,7 +71,8 @@ async def get_one_recipe(recipe_id: int):
     async with async_session() as session:
         try:
             recipe = await session.execute(
-                select(models.Recipe).where(models.Recipe.recipe_id == recipe_id)
+                select(models.Recipe)
+                .where(models.Recipe.recipe_id == recipe_id)
             )
             scalar = recipe.scalar()
             scalar.views = scalar.views + 1
