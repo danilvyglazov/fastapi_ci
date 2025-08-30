@@ -1,11 +1,11 @@
+from typing import List
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, status
 from sqlalchemy.future import select
 from sqlalchemy import desc, update
-import models
-from typing import List
-import schemas
 from database import engine, async_session
-from contextlib import asynccontextmanager
+import models
+import schemas
 
 
 @asynccontextmanager
@@ -74,3 +74,4 @@ async def get_one_recipe(recipe_id: int):
             await session.close()
 
     return scalar
+
