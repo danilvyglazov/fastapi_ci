@@ -19,7 +19,7 @@ jobs:
         run: black --diff --check .
 
       - name: Lint with mypy
-        run: mypy .
+        run: mypy --follow-untyped-imports .
 
       - name: Lint with isort
         run: isort --check-only .
