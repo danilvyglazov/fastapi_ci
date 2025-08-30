@@ -4,8 +4,8 @@ from fastapi import FastAPI, status
 from sqlalchemy.future import select
 from sqlalchemy import desc, update
 from database import engine, async_session
-import models
 import schemas
+import models
 
 
 @asynccontextmanager
@@ -74,4 +74,3 @@ async def get_one_recipe(recipe_id: int):
             await session.close()
 
     return scalar
-    
