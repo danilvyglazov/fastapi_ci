@@ -1,0 +1,32 @@
+name: CI
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs_on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup python 3.13
+        uses: actions/setup-python@v3
+        with: 
+          pyhon-version: "3.13"
+          
+      - name: Install requirements
+        run: pip install -r requirements.txt
+        
+      - name: Lint with black
+        run: black --diff --check .
+
+      - name: Lint with mypy
+        run: mypy .
+
+      - name: Lint with isort
+        run: isort --check-only .
+
+      - name: Lint with flake8
+        run: flake8 .
+
+      - name: Test
+        run: pytest tests.py
+      
