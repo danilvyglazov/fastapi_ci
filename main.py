@@ -76,4 +76,3 @@ async def get_one_recipe(recipe_id: int):
             await session.close()
 
     return scalar
-
